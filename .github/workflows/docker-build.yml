@@ -25,6 +25,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./TripMate_TeodorLazar/Dockerfile
+          file: ./Dockerfile
           push: true
           tags: teolazar/tripmate:latest,teolazar/tripmate:${{ github.sha }}
