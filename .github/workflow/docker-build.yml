@@ -1,4 +1,4 @@
-name: Build and push Docker image
+name: Build and push Docker image 
 
 on:
   push:
@@ -28,3 +28,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: teodor163/tripmate:latest,teodor163/tripmate:${{ github.sha }}
+
