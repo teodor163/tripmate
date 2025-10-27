@@ -1,0 +1,6 @@
+@TripMate_TeodorLazar_HostAddress = http://localhost:5248
+
+GET {{TripMate_TeodorLazar_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
