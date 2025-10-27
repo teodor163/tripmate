@@ -30,4 +30,3 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/tripmate:latest
             ${{ secrets.DOCKER_USERNAME }}/tripmate:${{ github.sha }}
-
