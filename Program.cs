@@ -20,7 +20,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => Results.Text("TripMate API is running 🚀"));
+app.MapGet("/", () => Results.Text("TripMate API is running"));
 
 app.Urls.Add("http://0.0.0.0:80");
 
