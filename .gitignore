@@ -1,0 +1,38 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.db
+*.opendb
+*.log
+
+# Build directories
+bin/
+obj/
+
+# Temporary files
+*.tmp
+*.temp
+*.pid
+*.seed
+
+# Razor build cache
+**/Generated/
+**/filelist.xml
+**/TemporaryGeneratedFile_*.cs
+
+# User-specific files
+*.rsuser
+
+# IntelliSense
+.vscode/
+*.sqlite
+*.db-shm
+*.db-wal
+
+# Packages
+*.nupkg
+
+# Others
+*.DS_Store
