@@ -6,6 +6,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRazorPages();
+
+
 
 var app = builder.Build();
 
@@ -20,8 +23,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapRazorPages();
+
 app.MapGet("/", () => Results.Text("TripMate API is running"));
 
 app.Urls.Add("http://0.0.0.0:80");
 
 app.Run();
+

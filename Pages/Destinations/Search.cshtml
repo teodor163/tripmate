@@ -1,0 +1,24 @@
+﻿@page
+@model TripMate_TeodorLazar.Pages.Destinations.SearchModel
+
+<h2>Iskanje destinacij</h2>
+
+<form method="get">
+    <input type="text" name="query" placeholder="Vnesi ime destinacije..." value="@Model.Query" />
+    <button type="submit">Išči</button>
+</form>
+
+@if (Model.Results.Any())
+{
+    <h3>Rezultati:</h3>
+    <ul>
+        @foreach (var item in Model.Results)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+else if (!string.IsNullOrEmpty(Model.Query))
+{
+    <p>Ni zadetkov.</p>
+}
