@@ -1,0 +1,112 @@
+@page
+@model TripMate_TeodorLazar.Pages.Lodging.LodgingModel
+
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <!-- APP NAME -->
+        <a class="navbar-brand" href="/">TripMate</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- NAV LINKS -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Destinations/Search">Search</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Stops/Stops">Stops</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Lodging/Lodging">Lodging</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Weather/Check">Weather</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Activities/Nearby">Activities</a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+
+<div class="container mt-4">
+
+    <h2>Accommodation search</h2>
+
+    <div class="card p-3 mb-4">
+        <form method="get" class="row g-2">
+
+            <div class="col-md-7">
+                <input type="text"
+                       name="destination"
+                       class="form-control"
+                       placeholder="Type destination name (e.g. Bled, Vienna, Tokyo)..."
+                       value="@Model.DestinationQuery" />
+            </div>
+
+            <div class="col-md-3 d-flex align-items-center">
+                <input type="checkbox"
+                       name="eco"
+                       value="true"
+                       @(Model.EcoOnly ? "checked" : "") />
+                <span class="ms-2">Eco only</span>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+
+    @if (Model.Results.Any())
+    {
+    <ul class="list-group">
+        @foreach (var item in Model.Results)
+            {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>@item.Name</strong>
+                <span class="text-muted">(@item.DestinationName)</span>
+            </div>
+
+            <div>
+                @if (item.IsEco)
+                        {
+                <span class="badge bg-success me-2">ECO</span>
+                        }
+                        else
+                        {
+                <span class="badge bg-secondary me-2">Standard</span>
+                        }
+
+                <span>@item.Rating </span>
+            </div>
+        </li>
+            }
+    </ul>
+    }
+    else if (!string.IsNullOrEmpty(Model.DestinationQuery))
+    {
+    <p class="text-danger">No accommodations found for this destination.</p>
+    }
+
+</div>
