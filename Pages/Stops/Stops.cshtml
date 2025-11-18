@@ -1,0 +1,134 @@
+﻿@page
+@model TripMate_TeodorLazar.Pages.Stops.StopsModel
+
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <!-- APP NAME -->
+        <a class="navbar-brand" href="/">TripMate</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- NAV LINKS -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Destinations/Search">Search</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Stops/Stops">Stops</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Lodging/Lodging">Lodging</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Weather/Check">Weather</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Activities/Nearby">Activities</a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+
+    <div class="container mt-4">
+
+        <h2 class="mb-3">Moje postojanke</h2>
+
+        <!-- Dodaj postojanko -->
+        <div class="card p-3 mb-4">
+            <form method="get" class="row g-2">
+                <input type="hidden" name="items" value="@Model.ItemsQuery" />
+
+                <div class="col-8">
+                    <input class="form-control" type="text" name="add" placeholder="Nova postojanka..." />
+                </div>
+
+                <div class="col-4">
+                    <button class="btn btn-primary w-100" type="submit">Dodaj postojanko</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Seznam postojank -->
+        @if (Model.Stops.Any())
+    {
+        <div class="card p-3 mb-4">
+            <ul class="list-group">
+                @for (int i = 0; i < Model.Stops.Count; i++)
+                {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@Model.Stops[i]</span>
+
+                    <span>
+                        <a class="btn btn-sm btn-danger me-1" href="?remove=@i&items=@Model.ItemsQuery">Odstrani</a>
+                        <a class="btn btn-sm btn-secondary me-1" href="?moveUp=@i&items=@Model.ItemsQuery">Gor</a>
+                        <a class="btn btn-sm btn-secondary" href="?moveDown=@i&items=@Model.ItemsQuery">Dol</a>
+                    </span>
+                </li>
+                }
+            </ul>
+        </div>
+
+ <!-- Shrani načrt -->
+        <div class="card p-3">
+
+            <h5 class="mb-2">Shrani načrt</h5>
+
+            @{
+                var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+                var finalUrl = $"{baseUrl}?items={Model.ItemsQuery}";
+            }
+
+            <input id="saveUrl"
+                   class="form-control mb-2"
+                   value="@finalUrl"
+                   readonly />
+
+            <button class="btn btn-success w-100"
+                    onclick="navigator.clipboard.writeText(document.getElementById('saveUrl').value)">
+                Kopiraj URL
+            </button>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Ni dodanih postojank.</p>
+    }
+
+        <!-- Naloži načrt -->
+        <div class="card p-3 mt-4">
+            <h5>Naloži načrt</h5>
+
+            <form method="get" class="row g-2">
+                <div class="col-9">
+                    <input class="form-control"
+                           type="text"
+                           name="items"
+                           placeholder="Prilepi seznam (npr: mesto1,mesto2)" />
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-info w-100" type="submit">Naloži</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
