@@ -9,6 +9,13 @@
 		<RazorPagesRoot>Pages</RazorPagesRoot>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="TripMate_Test\**" />
+	  <Content Remove="TripMate_Test\**" />
+	  <EmbeddedResource Remove="TripMate_Test\**" />
+	  <None Remove="TripMate_Test\**" />
+	</ItemGroup>
+
 	
 
 	<ItemGroup>
