@@ -1,0 +1,59 @@
+﻿@page
+@model TripMate_TeodorLazar.Pages.Profile.EditModel
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">TripMate</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/Destinations/Search">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Stops/Stops">Stops</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Auth/Login">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Auth/Register">Register</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/Profile/Edit">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Profile edit</h2>
+
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <div class="alert alert-danger">@Model.Error</div>
+    }
+    @if (!string.IsNullOrEmpty(Model.Success))
+    {
+        <div class="alert alert-success">@Model.Success</div>
+    }
+
+    @if (Model.IsLoggedIn)
+    {
+        <form method="post" class="card p-3">
+            <div class="mb-2">
+                <label>Email</label>
+                <input class="form-control" value="@Model.Email" readonly />
+            </div>
+
+            <div class="mb-2">
+                <label>Name</label>
+                <input class="form-control" asp-for="Name" />
+            </div>
+
+            <div class="mb-2">
+                <label>Interests (comma separated)</label>
+                <input class="form-control" asp-for="Interests" />
+            </div>
+
+            <button class="btn btn-primary">Save</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            You must login first. <a href="/Auth/Login">Go to login</a>
+        </div>
+    }
+</div>

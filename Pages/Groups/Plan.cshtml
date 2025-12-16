@@ -1,0 +1,125 @@
+﻿@page
+@model TripMate_TeodorLazar.Pages.Groups.PlanModel
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/Destinations/Search">TripMate</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/Destinations/Search">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Stops/Stops">Stops</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Friends/Manage">Friends</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/Groups/MyGroups">Groups</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Group plan</h2>
+
+    @if (!Model.IsLoggedIn)
+    {
+        <div class="alert alert-warning">Login required. <a href="/Auth/Login">Login</a></div>
+        return;
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <div class="alert alert-danger">@Model.Error</div>
+    }
+
+    <div class="card p-3 mb-3">
+        <div class="d-flex justify-content-between">
+            <div>
+                <div><strong>Group:</strong> @Model.GroupName</div>
+                <div class="text-muted small">
+                    Version: @Model.Plan.Version | UpdatedBy: @Model.Plan.UpdatedByEmail | @Model.Plan.UpdatedAtUtc.ToString("u")
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a class="btn btn-sm btn-outline-secondary" href="/Groups/Plan?groupId=@Model.GroupId">Refresh</a>
+                <a class="btn btn-sm btn-outline-success" href="/Groups/Vote?groupId=@Model.GroupId">Vote</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-3 mb-3">
+        <h5>Add stop</h5>
+        <form method="post">
+            <input type="hidden" name="groupId" value="@Model.GroupId" />
+            <input type="hidden" name="clientVersion" value="@Model.Plan.Version" />
+            <div class="row g-2">
+                <div class="col-md-9">
+                    <input class="form-control" name="stop" placeholder="New stop..." />
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="card p-3 mb-3">
+        <h5>Stops</h5>
+        @if (Model.Plan.Stops.Count == 0)
+        {
+            <div class="text-muted">No stops yet</div>
+        }
+        else
+        {
+            <ul class="list-group">
+                @for (int i = 0; i < Model.Plan.Stops.Count; i++)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@(i + 1). @Model.Plan.Stops[i]</span>
+
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-danger"
+                               href="/Groups/Plan?groupId=@Model.GroupId&action=remove&index=@i&clientVersion=@Model.Plan.Version">Remove</a>
+
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="/Groups/Plan?groupId=@Model.GroupId&action=up&index=@i&clientVersion=@Model.Plan.Version">Up</a>
+
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="/Groups/Plan?groupId=@Model.GroupId&action=down&index=@i&clientVersion=@Model.Plan.Version">Down</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <div class="card p-3 mb-3">
+        <h5>Share link (public, no login required)</h5>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary"
+               href="/Groups/Plan?groupId=@Model.GroupId&share=1">Generate link (1 hour)</a>
+
+            @if (!string.IsNullOrEmpty(Model.ShareUrl))
+            {
+                <a class="btn btn-outline-danger"
+                   href="/Groups/Plan?groupId=@Model.GroupId&disableToken=@Model.ShareToken">Disable link</a>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ShareUrl))
+        {
+            <div class="mt-2">
+                <input class="form-control" value="@Model.ShareUrl" readonly />
+                <div class="text-muted small mt-1">Anyone with this link can view plan. Expires in 1 hour.</div>
+            </div>
+        }
+    </div>
+
+    <div class="card p-3">
+        <h5>Export</h5>
+        <div class="btn-group">
+            <a class="btn btn-outline-success" href="/Groups/Export?groupId=@Model.GroupId&format=txt">Download TXT</a>
+            <a class="btn btn-outline-success" href="/Groups/Export?groupId=@Model.GroupId&format=md">Download MD</a>
+        </div>
+    </div>
+</div>
